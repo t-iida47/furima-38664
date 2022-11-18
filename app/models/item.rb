@@ -1,5 +1,7 @@
 class Item < ApplicationRecord
   has_one_attached :image
+  belongs_to :user
+  # has_one :order
 
   validates :image, presence: true
   validates :item_name, presence: true
@@ -10,7 +12,7 @@ class Item < ApplicationRecord
   validates :item_prefecture_id, numericality: { other_than: 1, message: "can't be blank" }
   validates :item_scheduled_delivery_id, numericality: { other_than: 1, message: "can't be blank" }
   validates :item_price,
-            format: { with: /[3-9][0-9]{2}|[1-9][0-9]{3,6}/ }, presence: true
+            numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }, presence: true
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :item_category
