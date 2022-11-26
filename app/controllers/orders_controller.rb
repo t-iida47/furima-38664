@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
-
+  before_action :authenticate_user!, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
+  before_action :contributor_confirmation, only: [:index, :create]
 
   def index
     @order_address = OrderAddress.new
@@ -34,6 +35,11 @@ class OrdersController < ApplicationController
         card: order_params[:token],
         currency: 'jpy'
       )
+  end
+
+  def contributor_confirmation
+    redirect_to root_path unless current_user != @item.user
+    redirect_to root_path unless @item.order == nil
   end
 
 end
