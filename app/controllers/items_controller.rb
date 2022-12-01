@@ -3,9 +3,8 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :contributor_confirmation, only: [:edit, :update, :destroy]
 
-
   def index
-    @items = Item.order("created_at DESC")
+    @items = Item.order('created_at DESC')
   end
 
   def new
@@ -29,9 +28,9 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-       redirect_to item_path(@item)
+      redirect_to item_path(@item)
     else
-       render :edit
+      render :edit
     end
   end
 
@@ -49,14 +48,13 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:item_name, :item_info, :item_category_id, :item_sales_status_id, :item_shipping_fee_status_id,
                                  :item_prefecture_id, :item_scheduled_delivery_id, :item_price, :image).merge(user_id: current_user.id)
   end
-  
+
   def set_item
     @item = Item.find(params[:id])
   end
 
   def contributor_confirmation
     redirect_to root_path unless current_user == @item.user
-    redirect_to root_path unless @item.order == nil
+    redirect_to root_path unless @item.order.nil?
   end
-
 end

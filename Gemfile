@@ -76,3 +76,5 @@ gem 'active_hash'
 gem 'payjp'
 
 gem 'pry-rails'
+
+gem 'rails-i18n'
